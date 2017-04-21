@@ -3,6 +3,7 @@ package com.websystique.springsecurity.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,12 +23,15 @@ public class HelloWorldController {
 		return "welcome";
 	}
 
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
 		return "admin";
 	}
 	
+	
+	@PreAuthorize("hasAuthority('DBA')")
 	@RequestMapping(value = "/db", method = RequestMethod.GET)
 	public String dbaPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
